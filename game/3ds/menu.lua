@@ -51,7 +51,7 @@ function menu_enable(m)
 		
 	elseif menu_type == 'title' then
 		menutext = 'Main Menu'
-		itemnames = {'New Game','Load Game','Settings','Help'}
+		itemnames = {'New Game','Load Game','Settings','Help','Quit'}
 		if persistent.ptr == 1 then itemnames[1] = glitchtext(10) end
 		
 	elseif menu_type == 'settings' then
@@ -68,7 +68,7 @@ function menu_enable(m)
 	
 	elseif menu_type == 'pause' or menu_type == 'pause2' then
 		menutext = 'Game Menu'
-		itemnames = {'History','Save Game','Load Game','Main Menu','Settings','Help'}
+		itemnames = {'History','Save Game','Load Game','Main Menu','Settings','Help','Quit'}
 	
 	elseif menu_type == 'savegame' then
 		menutext = 'Save Game'
@@ -94,11 +94,13 @@ function menu_draw()
 	lg.draw(menu_bg, posX, posY)
 	if menu_type == 'choice' then
 		for i = 1, #choices do
-			getcompare[i] = font:getWidth(choices[i])
+			--getcompare[i] = font:getWidth(choices[i])
+            getcompare[i] = 75
 		end
 	else
 		for i = 1, #itemnames do
-			getcompare[i] = font:getWidth(itemnames[i])
+			--getcompare[i] = font:getWidth(itemnames[i])
+            getcompare[i] = 75
 		end
 	end
 	rectwidth = math.max(unpack(getcompare)) + 5
@@ -205,9 +207,9 @@ function menu_update()
 	end
 	
 	if menu_type == 'history' then
-		if love.keyboard.isDown('down') and history_scr > -27 then
+		if joystick:isGamepadDown('down') and history_scr > -27 then
 			history_scr = history_scr - dt*10
-		elseif love.keyboard.isDown('up') and history_scr < 0 then
+		elseif joystick:isGamepadDown('up') and history_scr < 0 then
 			history_scr = history_scr + dt*10
 		end
 	end
@@ -220,8 +222,13 @@ function menu_confirm()
 		menu_previous = 'title'
 
 		if m_selected == 2 then --new game
+			player = 'MC'
 			if player == '' then --keyboard input for player name
-				love.keyboard.setTextInput(true)
+				local input = {}
+				input["type"] = "basic"
+				input["hint"] = "Enter Player Name"
+				input["isPassword"] = false
+				love.keyboard.showTextInput(input)
 			elseif player ~= '' then --go straight to new game
 				changeState('game',1)
 			end
@@ -286,7 +293,7 @@ function menu_confirm()
 		elseif m_selected == 7 then
 			menu_enable('help')
 		elseif m_selected == 8 then
-			--menu_enable('quityesno')
+			menu_enable('quityesno')
 		end
 		
 	elseif menu_type == 'mainyesno' then

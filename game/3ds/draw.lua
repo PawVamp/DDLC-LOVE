@@ -7,14 +7,18 @@ local with_r = {'1','1b','2','2b','3','3b','4','4b'}
 local with_yr = {'1','1b','2','2b','3','3b'}
 
 function drawTopScreen()
+	--[[
 	lg.setScreen('top')
 	if pcall(lg.set3D, true) == true then
 		lg.setDepth(2)
 	end
+	]]
+	drawscreen = 'top'
 end
 
 function drawBottomScreen()
-	lg.setScreen('bottom')
+	--lg.setScreen('bottom')
+	drawscreen = 'bottom'
 end
 
 function drawTextBox()

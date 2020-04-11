@@ -31,9 +31,9 @@ end
 local lgsetFont = lg.setFont
 function lg.setFont(setfont)
 	if setfont then
-		lgsetFont(setfont)
+		--lgsetFont(setfont)
 	else
-		lgsetFont(dfnt)
+		--lgsetFont(dfnt)
 	end
 end
 
